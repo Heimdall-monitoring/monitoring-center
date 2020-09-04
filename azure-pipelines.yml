@@ -111,6 +111,32 @@ stages:
         pathToPublish: '$(Build.ArtifactStagingDirectory)'
         artifactName: docker_artifacts
 
+- stage: build_full_docker
+  displayName: 'Build Full Docker'
+  dependsOn: [build_test_frontend, build_test_backend]
+  jobs:
+  - job: build_docker_full
+    displayName: 'Build docker image'
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '12.x'
+        displayName: 'Install Node.js'
+    - script: |
+        npm install
+        npm run build --production
+      workingDirectory: monitoring-center-frontend/
+      displayName: 'Install and build frontend'
+    - script: docker build . -t ahugues/monitoring-center-full
+      displayName: 'Build image'
+    - script: docker save -o $(Build.ArtifactStagingDirectory)/monitoring-center-full.tar ahugues/monitoring-center-full:latest
+      displayName: 'Save image'
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish image to artifacts'
+      inputs:
+        pathToPublish: '$(Build.ArtifactStagingDirectory)'
+        artifactName: docker_artifacts
+
 # - stage: deploy_frontend
 #   displayName: 'Deploy Frontend'
 #   condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
