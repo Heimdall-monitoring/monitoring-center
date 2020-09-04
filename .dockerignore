@@ -1,0 +1,5 @@
+monitoring-center-frontend/src
+monitoring-center-frontend/tests
+monitoring-center-frontend/node_modules
+
+monitoring-center-backend/tests
