@@ -1,0 +1,11 @@
+#!/bin/sh
+
+echo "Starting healthcheck"
+
+server_target="http://localhost:80"
+
+echo "Sending HTTP request to host $server_target"
+curl -f $server_target -I | grep "HTTP/1.1 200 OK" || exit 1
+
+echo "Check successful"
+exit 0
