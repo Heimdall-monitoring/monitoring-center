@@ -94,6 +94,21 @@ stages:
       displayName: 'Run unit tests'
       workingDirectory: monitoring-center-backend/
 
+  - job: build_docker_backend
+    displayName: 'Build docker image'
+    steps:
+    - script: docker build . -t ahugues/heimdall-monitoring-backend
+      workingDirectory: monitoring-center-backend/
+      displayName: 'Build image'
+    - script: docker save -o $(Build.ArtifactStagingDirectory)/heimdall-monitoring-backend.tar ahugues/heimdall-monitoring-backend:latest
+      workingDirectory: monitoring-center-backend/
+      displayName: 'Save image'
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish image to artifacts'
+      inputs:
+        pathToPublish: '$(Build.ArtifactStagingDirectory)'
+        artifactName: docker_artifacts
+
 # - stage: deploy_frontend
 #   displayName: 'Deploy Frontend'
 #   condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
