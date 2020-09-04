@@ -11,6 +11,7 @@ pool:
 stages:
 - stage: build_test_frontend
   displayName: 'Build and test frontend'
+  dependsOn: []
   jobs:
   - job: unit_test
     displayName: 'Run unit tests'
@@ -66,6 +67,7 @@ stages:
 
 - stage: build_test_backend
   displayName: 'Build and test backend'
+  dependsOn: []
   jobs:
   - job: unit_test
     displayName: 'Run unit tests'
