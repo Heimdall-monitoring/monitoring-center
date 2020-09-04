@@ -43,27 +43,29 @@ stages:
       workingDirectory: monitoring-center-frontend/
       env:
         CODECOV_TOKEN: $(CODECOV_TOKEN)
-
-#   - job: build_docker
-#     displayName: 'Build docker image'
-#     steps:
-#     - task: NodeTool@0
-#       inputs:
-#         versionSpec: '12.x'
-#         displayName: 'Install Node.js'
-#     - script: |
-#         npm install
-#         npm run build --production
-#       displayName: 'Install and build package'
-#     - script: docker build . -t ahugues/porygon-frontend
-#       displayName: 'Build image'
-#     - script: docker save -o $(Build.ArtifactStagingDirectory)/porygon-frontend.tar ahugues/porygon-frontend:latest
-#       displayName: 'Save image'
-#     - task: PublishBuildArtifacts@1
-#       displayName: 'Publish image to artifacts'
-#       inputs:
-#         pathToPublish: '$(Build.ArtifactStagingDirectory)'
-#         artifactName: docker_artifacts
+  - job: build_docker_frontend
+    displayName: 'Build docker image'
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '12.x'
+        displayName: 'Install Node.js'
+    - script: |
+        npm install
+        npm run build --production
+      workingDirectory: monitoring-center-frontend/
+      displayName: 'Install and build package'
+    - script: docker build . -t ahugues/monitoring-center-frontend
+      workingDirectory: monitoring-center-frontend/
+      displayName: 'Build image'
+    - script: docker save -o $(Build.ArtifactStagingDirectory)/monitoring-center-frontend.tar ahugues/monitoring-center-frontend:latest
+      workingDirectory: monitoring-center-frontend/
+      displayName: 'Save image'
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish image to artifacts'
+      inputs:
+        pathToPublish: '$(Build.ArtifactStagingDirectory)'
+        artifactName: docker_artifacts
 
 - stage: build_test_backend
   displayName: 'Build and test backend'
