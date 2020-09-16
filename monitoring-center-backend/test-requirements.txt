@@ -7,3 +7,4 @@ pytest-mccabe
 pytest-mypy
 pytest-pylint
 pytest-flask
+pytest-flask-sqlalchemy
