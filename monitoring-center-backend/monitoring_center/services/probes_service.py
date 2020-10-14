@@ -9,7 +9,10 @@ from typing import (
 
 from flask_sqlalchemy import SessionBase
 
-from ..models import Probe
+from ..models import (
+    Probe,
+    Stats,
+)
 
 
 class ProbeService:
@@ -18,3 +21,7 @@ class ProbeService:
 
     def get_all_probes(self) -> List[Probe]:
         return cast(List[Probe], self._db_session.query(Probe).all())
+
+    def save_new_stats(self, stats: Stats):
+        self._db_session.add(stats)
+        self._db_session.commit()
