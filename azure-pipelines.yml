@@ -75,12 +75,12 @@ stages:
     displayName: 'Run unit tests'
     strategy:
       matrix:
-        python_36:
-          python_version: '3.6'
         python_37:
           python_version: '3.7'
         python_38:
           python_version: '3.8'
+        python_39:
+          python_version: '3.9'
       maxParallel: 3
     steps:
     - task: UsePythonVersion@0
